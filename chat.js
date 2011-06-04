@@ -6,7 +6,6 @@ var fs = require('fs'),
 function sendStaticFile(res, filename, replaces) {
     fs.readFile('static/' + filename, encoding='utf8', function(err, data) {
         res.writeHeader(200, {'Content-Type': 'text/html'});
-        console.log(typeof file);
         if (replaces != undefined) {
             for (var key in replaces) {
                 data = data.replace(new RegExp(key, 'g'), replaces[key]);
@@ -17,8 +16,6 @@ function sendStaticFile(res, filename, replaces) {
 }
     
 var server = http.createServer(function(req, res) {
-    console.log("Hello");
-    console.log("req " + req);
     var urlObj = url.parse(req.url, true),
         path = urlObj.pathname;
         
@@ -37,7 +34,7 @@ var server = http.createServer(function(req, res) {
     }
 });
 server.listen(8888, 'localhost');
-console.log('Chat started');
+console.log('Chat started.');
 
 var socket = io.listen(server);
 socket.on('connection', function(client) { 
