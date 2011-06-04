@@ -1,0 +1,51 @@
+<html>
+<head>
+    <title>Node.js Chat</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <script src="/socket.io/socket.io.js"></script> 
+</head>
+<body>
+    <h1>Chat!</h1>
+    <input id="exit" type="submit" value="Esci" onClick="leaveChat()"/>
+    <p>
+    <textarea id="output" cols="80" rows="25"></textarea>
+    </p>
+
+    <p>    
+    Cosa vuoi dire?
+    <input id="input" type="text" size="40" onKeyPress="sendText(event)" />
+    </p>
+    
+    <input id="nickname" type="hidden" value="#NICKNAME#" />
+        
+    <script>
+        var socket = new io.Socket("localhost", { "port": 8888 }),
+            input = document.getElementById('input'),
+            output = document.getElementById('output'),
+            nickname = document.getElementById('nickname');
+
+        socket.on('message', function(msg){
+            output.value += msg + '\n';
+        });
+        
+        socket.on('disconnect', function() {
+            output.value += 'Disconnesso.\n';
+        });
+                    
+        function sendText(event) {
+            if (event.keyCode == 13) {
+                socket.send(nickname.value + ': ' + input.value);
+                input.value = ''
+            }
+        }
+        
+        function leaveChat() {
+            socket.send(nickname.value + ' è uscito dalla chat.');
+            socket.disconnect();
+        }
+        
+        socket.connect();
+        socket.send(nickname.value + ' è entrato nella chat.');
+    </script>
+</body>
+</html>
