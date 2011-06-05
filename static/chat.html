@@ -33,7 +33,7 @@
         });
                     
         function sendText(event) {
-            if (event.keyCode == 13) {
+            if (event.keyCode === 13) {
                 socket.send(nickname.value + ': ' + input.value);
                 input.value = ''
             }

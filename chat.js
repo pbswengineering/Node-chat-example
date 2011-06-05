@@ -19,11 +19,11 @@ var server = http.createServer(function(req, res) {
     var urlObj = url.parse(req.url, true),
         path = urlObj.pathname;
         
-    if (path == '/') {
+    if (path === '/') {
         sendStaticFile(res, 'login.html');
-    } else if (path == '/chat') {
+    } else if (path === '/chat') {
         var nickname = urlObj.query['nickname'];
-        if (nickname != undefined) {
+        if (nickname !== undefined) {
             sendStaticFile(res, 'chat.html', {'#NICKNAME#': nickname});
         } else {
             sendStaticFile(res, 'login.html');
