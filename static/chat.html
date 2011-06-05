@@ -27,10 +27,6 @@
         socket.on('message', function(msg){
             output.value += msg + '\n';
         });
-        
-        socket.on('disconnect', function() {
-            output.value += 'Disconnesso.\n';
-        });
                     
         function sendText(event) {
             if (event.keyCode === 13) {
@@ -42,6 +38,7 @@
         function leaveChat() {
             socket.send(nickname.value + ' è uscito dalla chat.');
             socket.disconnect();
+            output.value += 'Disconnesso.\n';
         }
         
         socket.connect();
