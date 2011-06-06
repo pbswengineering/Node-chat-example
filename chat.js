@@ -3,34 +3,34 @@ var fs = require('fs'),
     io = require('socket.io'),
     url = require('url');
 
-function sendStaticFile(res, filename, replaces) {
+function sendStaticFile(response, filename, replaces) {
   fs.readFile('static/' + filename, encoding='utf8', function(err, data) {
-    res.writeHeader(200, {'Content-Type': 'text/html'});
+    response.writeHeader(200, {'Content-Type': 'text/html'});
     if (replaces != undefined) {
       for (var key in replaces) {
         data = data.replace(new RegExp(key, 'g'), replaces[key]);
       }
     }
-    res.end(data);
+    response.end(data);
   });
 }
     
-var server = http.createServer(function(req, res) {
-  var urlObj = url.parse(req.url, true),
+var server = http.createServer(function(request, response) {
+  var urlObj = url.parse(request.url, true),
       path = urlObj.pathname;
       
   if (path === '/') {
-    sendStaticFile(res, 'join.html');
+    sendStaticFile(response, 'join.html');
   } else if (path === '/chat') {
     var nickname = urlObj.query['nickname'];
     if (nickname !== undefined) {
-      sendStaticFile(res, 'chat.html', {'#NICKNAME#': nickname});
+      sendStaticFile(response, 'chat.html', {'#NICKNAME#': nickname});
     } else {
-      sendStaticFile(res, 'join.html');
+      sendStaticFile(response, 'join.html');
     }    
   } else {
-    res.writeHeader(404, {"Content-Type": "text/plain"});
-    res.end('404 Not Found\n');
+    response.writeHeader(404, {"Content-Type": "text/plain"});
+    response.end('404 Not Found\n');
   }
 });
 server.listen(8888, 'localhost');
