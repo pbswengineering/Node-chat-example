@@ -20,13 +20,13 @@ var server = http.createServer(function(req, res) {
       path = urlObj.pathname;
       
   if (path === '/') {
-    sendStaticFile(res, 'login.html');
+    sendStaticFile(res, 'join.html');
   } else if (path === '/chat') {
     var nickname = urlObj.query['nickname'];
     if (nickname !== undefined) {
       sendStaticFile(res, 'chat.html', {'#NICKNAME#': nickname});
     } else {
-      sendStaticFile(res, 'login.html');
+      sendStaticFile(res, 'join.html');
     }    
   } else {
     res.writeHeader(404, {"Content-Type": "text/plain"});
