@@ -33,7 +33,7 @@ var server = http.createServer(function(request, response) {
     response.end('404 Not Found\n');
   }
 });
-server.listen(8888, 'localhost');
+server.listen(8000, 'localhost');
 console.log('Chat started.');
 
 var socket = io.listen(server);
